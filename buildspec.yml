@@ -1,26 +1,24 @@
 version: 0.2
+
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
-      — REPOSITORY_URI="public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic"
       - CODEBUILD_RESOLVED_SOURCE_VERSION="${CODEBUILD_RESOLVED_SOURCE_VERSION:-$IMAGE_TAG}"
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_URI="public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic:$IMAGE_TAG"
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest .
-      — docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $IMAGE_URI .
+      - docker tag $IMAGE_URI public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic:latest
   post_build:
     commands:
-      — echo Build completed on `date`
-      — echo Pushing the Docker images…
-      — docker push $REPOSITORY_URI:latest
-      — docker push $REPOSITORY_URI:$IMAGE_TAG
-      — echo Writing image definitions file…
-      — printf '[{"name":"CONTAINER-NAME","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-      — cat imagedefinitions.json 
+      - echo Build stage successfully completed on `date`
+      - docker push $IMAGE_URI
+      - docker push public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic:latest
+      - printf '[{"name":"test","imageUri":"%s"}]' "$IMAGE_URI" > images.json
 artifacts:
- files: imagedefinitions.json
+  files: images.json
