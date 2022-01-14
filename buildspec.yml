@@ -4,7 +4,7 @@ phases:
     commands:
       — echo Amazon ECR…
       — aws -version
-      — $(aws ecr get-login — region $AWS_DEFAULT_REGION — no-include-email)
+      — $(aws ecr get-login —region $AWS_DEFAULT_REGION —no-include-email)
       — REPOSITORY_URI="public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic"
       — COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1–7)
       — IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}'')
