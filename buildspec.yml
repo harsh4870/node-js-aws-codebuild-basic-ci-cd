@@ -4,21 +4,22 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - $(aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/w0u2p9o6)
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 819955915246.dkr.ecr.us-east-1.amazonaws.com
+      - $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 819955915246.dkr.ecr.us-east-1.amazonaws.com)
       - CODEBUILD_RESOLVED_SOURCE_VERSION="${CODEBUILD_RESOLVED_SOURCE_VERSION:-$IMAGE_TAG}"
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_URI="public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic:$IMAGE_TAG"
+      - IMAGE_URI="819955915246.dkr.ecr.us-east-1.amazonaws.com/node-js-cloudbuild-basic:$IMAGE_TAG"
   build:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t $IMAGE_URI .
-      - docker tag $IMAGE_URI public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic:latest
+      - docker tag $IMAGE_URI 819955915246.dkr.ecr.us-east-1.amazonaws.com/node-js-cloudbuild-basic:latest
   post_build:
     commands:
       - echo Build stage successfully completed on `date`
       - docker push $IMAGE_URI
-      - docker push public.ecr.aws/w0u2p9o6/node-js-cloudbuild-basic:latest
+      - docker push 819955915246.dkr.ecr.us-east-1.amazonaws.com/node-js-cloudbuild-basic:latest
       - printf '[{"name":"test","imageUri":"%s"}]' "$IMAGE_URI" > images.json
 artifacts:
   files: images.json
