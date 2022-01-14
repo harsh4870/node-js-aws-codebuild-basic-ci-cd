@@ -5,7 +5,6 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 819955915246.dkr.ecr.us-east-1.amazonaws.com
-      - $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 819955915246.dkr.ecr.us-east-1.amazonaws.com)
       - CODEBUILD_RESOLVED_SOURCE_VERSION="${CODEBUILD_RESOLVED_SOURCE_VERSION:-$IMAGE_TAG}"
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_URI="819955915246.dkr.ecr.us-east-1.amazonaws.com/node-js-cloudbuild-basic:$IMAGE_TAG"
