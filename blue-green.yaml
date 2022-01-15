@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-image-1
+  labels:
+    app: test-image-1
+spec:
+  selector:
+    matchLabels:
+      app: test-image-1
+      tier: frontend-1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: test-image-1
+        tier: frontend-1
+    spec:
+      containers:
+      - image: Nginx
+        name: test-image-1
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 80
+          name: httpa
+        - containerPort: 443
+          name: https
