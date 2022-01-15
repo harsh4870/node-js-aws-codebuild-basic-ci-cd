@@ -39,13 +39,12 @@ pipeline {
       }
     }
     
-    
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
-
-      }
+    stage('Apply Kubernetes files') {
+    withKubeConfig([credentialsId: '3f5bcb63-2824-41e6-aed9-084d2248646a', serverUrl: 'https://808A4C0F41A833A1EA96030AE2DE77DE.gr7.us-west-2.eks.amazonaws.com']) {
+      sh 'kubectl get pods'
     }
+  }
+    
+    
   }
 }
