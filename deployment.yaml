@@ -36,7 +36,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: harshmanvar/node-web-app:latest
+      - image: TEST_IMAGE_NAME
         name: test-image
         ports:
         - containerPort: 8080
