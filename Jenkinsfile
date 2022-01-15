@@ -34,7 +34,7 @@ pipeline {
       steps{
         script {
           sh "kubectl --kubeconfig=/home/ec2-user/config get pods"
-          sh "kubectl --kubeconfig=/home/ec2-user/config kubectl get ns"
+          sh "kubectl --kubeconfig=/home/ec2-user/config apply -f deployment.yaml"
         }
       }
     }
