@@ -30,6 +30,16 @@ pipeline {
         }
       }
     }
+    stage('Deploy to K8s') {
+      steps{
+        script {
+          sh "kubectl get pods"
+          sh "kubectl get ns"
+        }
+      }
+    }
+    
+    
     stage('Remove Unused docker image') {
       steps{
         sh "docker rmi $imagename:$BUILD_NUMBER"
