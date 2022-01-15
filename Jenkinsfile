@@ -33,7 +33,7 @@ pipeline {
     stage('Deploy to K8s') {
       steps{
         script {
-          sh "kubectl get pods"
+          sh "kubectl --kubeconfig=/home/ec2-user/.kube/config get pods"
           sh "kubectl get ns"
         }
       }
